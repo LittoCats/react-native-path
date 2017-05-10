@@ -11,10 +11,9 @@ path.relative(from, to)
 path.resolve([...paths])
 path.sep
 */
-
 function normalize(path) {
   valid(path);
-  return `${path}/`.split(/\/+/g).reduce((previous, current)=>{
+  return `${path}/`.split(/\/+/g).reduce((previous, current) => {
     if (!Array.isArray(previous)) previous = [previous];
     if (current === '.') return previous;
     if (current === '..') previous.pop();
@@ -25,14 +24,14 @@ function normalize(path) {
 
 function basename(path, ext) {
   var basename = path.split(/\//g).pop();
-    if (ext) {
-      var tmp = basename.split(/\./g);
-      var _ext = tmp.pop();
-      if (ext === _ext || ext.slice(1) === _ext) {
-        return tmp.join('.')
-      }
+  if (ext) {
+    var tmp = basename.split(/\./g);
+    var _ext = tmp.pop();
+    if (ext === _ext || ext.slice(1) === _ext) {
+      return tmp.join('.')
     }
-    return basename;
+  }
+  return basename;
 }
 
 function dirname(path) {
@@ -46,10 +45,15 @@ function extname(path) {
 }
 
 function format(options) {
-  var {dir, root, base, name, ext} = options;
+  var {
+    dir,
+    root,
+    base,
+    name,
+    ext
+  } = options;
   var _dir = dir || root;
   var _base = base || `${name || ''}${/^\./.test(ext) ? '' : '.'}${ext || ''}`;
-
   return normalize(`${_dir}/${_base}`);
 }
 
@@ -58,38 +62,35 @@ function isAbsolute(path) {
 }
 
 function parse(path) {
-  var obj = {}, tmp;
+  var obj = {},
+    tmp;
   var components = path.split(/\//g)
-
   obj.base = components.pop();
   obj.dir = components.join('/');
-
   if (/^\//.test(obj.dir)) {
     obj.root = '/';
   }
-
-  if (obj.base != undefined){
+  if (obj.base != undefined) {
     tmp = obj.base.replace(/^[\.]+/, '');
     if (/\./.test(tmp)) {
       obj.ext = tmp.match(/\.[^.]*$/)[0];
       obj.name = obj.base.slice(0, -obj.ext.length);
-    }else{
+    } else {
       obj.name = obj.base
     }
-  }else{
+  } else {
     delete obj.base
   }
-
   return obj;
 }
 
 function resolve(segments) {
-  var flat = segments.reduce((previous, current)=>{
+  var flat = segments.reduce((previous, current) => {
     if (!Array.isArray(previous)) previous = [previous];
     if (Array.isArray(current)) Array.prototype.push.apply(previous, current);
     Array.prototype.push.call(previous, current);
     return previous;
-  }).reduce((previous, current)=>{
+  }).reduce((previous, current) => {
     if (/^\//.test(current)) return current;
     return `${previous}/${current}`;
   });
@@ -102,39 +103,27 @@ function valid(path) {
   }
 }
 
-class Path {
-  normalize(path) {
-    return normalize(path);   
-  }
-  basename(path, ext){
-    return basename(normalize(path), ext);
-  }
-
-  dirname(path) {
-    return dirname(normalize(path));
-  }
-
-  extname(path) {
-    return extname(normalize(path))
-  }
-
-  format(options) {
-    return format(options);
-  }
-
-  isAbsolute(path) {
-    return isAbsolute(valid(path))
-  }
-
-  parse(path) {
-    return parse(normalize(path))
-  }
-
-  resolve() {
-    return resolve.call({}, Array.prototype.slice.call(arguments, 0));
-  }
+export function normalize(path): string {
+  return normalize(path);
 }
-
-Object.setPrototypeOf(Path, new Path);
-
-export default Path
+export function basename(path, ext): string {
+  return basename(normalize(path), ext);
+}
+export function dirname(path): string {
+  return dirname(normalize(path));
+}
+export function extname(path): string {
+  return extname(normalize(path))
+}
+export function format(options): string {
+  return format(options);
+}
+export function isAbsolute(path): boolean {
+  return isAbsolute(valid(path))
+}
+export function parse(path): string {
+  return parse(normalize(path))
+}
+export function resolve(): string {
+  return resolve.call({}, Array.prototype.slice.call(arguments, 0));
+}
