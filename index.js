@@ -127,3 +127,5 @@ export function parse(path): string {
 export function resolve(): string {
   return resolve.call({}, Array.prototype.slice.call(arguments, 0));
 }
+
+export default exports;
