@@ -19,5 +19,7 @@
   "bugs": {
     "url": "https://github.com/LittoCats/react-native-path/issues"
   },
-  "homepage": "https://github.com/LittoCats/react-native-path#readme"
+  "homepage": "https://github.com/LittoCats/react-native-path#readme",
+  "author": "程巍巍",
+  "license": "Apache-2.0"
 }
