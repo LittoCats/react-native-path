@@ -6,9 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "peerDependencies": {
-    "react-native-lite": "*"
-  },
   "keywords": [],
   "author": "程巍巍",
   "license": "Apache-2.0",
