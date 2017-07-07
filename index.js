@@ -95,7 +95,19 @@ function _resolve(segments) {
     if (/^\//.test(current)) return current;
     return `${previous}/${current}`;
   });
-  return normalize(flat);
+  return _normalize(flat);
+}
+
+function _relative(base, path) {
+  base = base.split(/\//g);
+  path = path.split(/\//g);
+
+  while(base[0] === path[0]) {
+    base.shift();
+    path.shift();
+  }
+
+  return Array(base.length).fill('..').concat(path).join('/');
 }
 
 function valid(path) {
@@ -104,29 +116,33 @@ function valid(path) {
   }
 }
 
-export function normalize(path): string {
-  return _normalize(path);
-}
-export function basename(path, ext): string {
-  return _basename(normalize(path), ext);
-}
-export function dirname(path): string {
-  return _dirname(normalize(path));
-}
-export function extname(path): string {
-  return _extname(normalize(path))
-}
-export function format(options): string {
-  return _format(options);
-}
-export function isAbsolute(path): boolean {
-  return _isAbsolute(valid(path))
-}
-export function parse(path): string {
-  return _parse(normalize(path))
-}
-export function resolve(): string {
-  return _resolve.call({}, Array.prototype.slice.call(arguments, 0));
-}
 
-export default exports;
+module.exports = exports = {
+  normalize(path) {
+    return _normalize(path);
+  },
+  basename(path, ext) {
+    return _basename(_normalize(path), ext);
+  },
+  dirname(path) {
+    return _dirname(_normalize(path));
+  },
+  extname(path) {
+    return _extname(_normalize(path))
+  },
+  format(options) {
+    return _format(options);
+  },
+  isAbsolute(path) {
+    return _isAbsolute(valid(path))
+  },
+  parse(path) {
+    return _parse(_normalize(path))
+  },
+  resolve() {
+    return _resolve.call({}, Array.prototype.slice.call(arguments, 0));
+  },
+  relative(base, path) {
+    return _relative(_normalize(base), _normalize(path))
+  }
+}

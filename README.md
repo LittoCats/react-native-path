@@ -14,4 +14,5 @@ function format(options): string
 function isAbsolute(path): boolean
 function parse(path): string
 function resolve(): string
+function relative(from, to): string
 ```
