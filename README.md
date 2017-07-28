@@ -2,6 +2,23 @@
 
 path util like nodejs for react-native.
 
+### Install
+
+```
+npm install --save react-native-path
+```
+
+### Usage
+
+```
+import path from 'react-native-path'
+
+...
+
+path.resolve(...)
+
+...
+```
 
 ### API
 

@@ -1,6 +1,6 @@
 {
   "name": "react-native-path",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "path util for react-native",
   "main": "index.js",
   "scripts": {
